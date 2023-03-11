@@ -1,0 +1,84 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+#Definir los vectores y la matriz
+julian<-c(50.4, 62.3, 92.1,77.6, TRUE)
+jose<- c(41.7, 87.9,75.3, 72.4, FALSE)
+andrea <- c(30.3, 67.8, 69.3, 71.2, FALSE)
+herber <- c(65.4, 85.1, 92.3, 96.8, TRUE)
+lilian <- c(70.4, 88.2, 95.2, 90.7, FALSE)
+
+
+vector_estudiantes <- c(julian, jose, andrea, herber, lilian)
+
+matriz_estudiantes <- matrix(vector_estudiantes, byrow=TRUE, nrow = 5)
+
+#Asignar nombres a las filas y a las columnas
+name_students <- c("Lily Brown", "Davis Moore", "Susan Taylor", "Mike Jones", "Tom Hill")
+name_courses_legal_age <- c("TIC", "Accounting", "Psychology", "Ethics", "Legal_age")
+
+#Nueva columna Result student
+
+rownames(matriz_estudiantes)<- name_students
+colnames(matriz_estudiantes)<- name_courses_legal_age
+
+result_student <- rowSums(matriz_estudiantes[ , 1:4])
+
+matriz_result_estudiantes<- cbind(matriz_estudiantes, result_student)
+
+#4. Buscar valores con indices
+
+selected_elements <- matriz_result_estudiantes [c(1,3,5), c(2,4)]
+
+#5. data frame
+
+students_grades_df<- data.frame(matriz_result_estudiantes)
+
+subset(students_grades_df, Accounting >80 & Legal_age)
+
+#6. Funciones
+x=0
+y=0
+
+for (x in 1:nrow(matriz_result_estudiantes)) {
+  for (y in 1:ncol(matriz_result_estudiantes)) {
+   if(students_grades_df[x,y]>1){
+    if(students_grades_df[x,y]<=45){
+      message("Student at Risck")
+    }else if(students_grades_df[x,y]>=45 & students_grades_df[x,y]< 61){
+     message("Student may be appoved")
+    }else{
+      message("Student Approved")
+    } 
+   } 
+  }
+}
+
+#7. lapply y Data Frame
+
+index_education<- function(x)
+
+   y <-(1+(x/100))/2
+
+
+all_student_grade<- students_grades_df[,1:4]
+Resultado <- lapply(all_student_grade, index_education)
+  
+
+#8. promedio
+score_mean <- rowMeans(students_grades_df[,1:4])
+
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
